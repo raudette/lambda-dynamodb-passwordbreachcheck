@@ -1,0 +1,71 @@
+service: lambda-dynamodb-passwordbreachcheck
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  apiGateway:
+    shouldStartNameWithService: true
+
+  stage: dev
+  region: ca-central-1
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+functions:
+  checkhash:
+    handler: checkhash.checkhash
+    events:
+      - http:
+          path: checkhash/{hash}
+          method: get
+          cors: true
+
+  html:
+    handler: static.html
+    events:
+      - http:
+          path: /
+          method: get
+
+resources:
+  Resources:
+    HaveIBeenPwnedTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: passwordhash
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: passwordhash
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+plugins: 
+    - serverless-dynamodb-fixtures
+    - serverless-aws-static-file-handler
+
+custom:
+  fixtures:
+      rules:
+      - table: ${self:provider.environment.DYNAMODB_TABLE} 
+        enable: true
+        sources:
+          - ./sampledata.json

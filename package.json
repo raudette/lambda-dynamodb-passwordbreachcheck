@@ -1,0 +1,21 @@
+{
+  "name": "lambda-dynamodb-passwordbreachcheck",
+  "version": "1.0.0",
+  "description": "Web service to verify user passwords against known breached passwords built on AWS Lambda and DynamoDB",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raudette/lambda-dynamodb-passwordbreachcheck.git"
+  },
+  "author": "Richard Audette",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/raudette/lambda-dynamodb-passwordbreachcheck/issues"
+  },
+  "homepage": "https://github.com/raudette/lambda-dynamodb-passwordbreachcheck#readme",
+  "dependencies": {
+    "aws-sdk": "^2.797.0",
+    "serverless": "^2.12.0",
+    "serverless-aws-static-file-handler": "^2.0.6",
+    "serverless-dynamodb-fixtures": "^1.0.0"
+  }
+}
