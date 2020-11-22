@@ -15,12 +15,67 @@
     {
       "Effect": "Allow",
       "Action": [
+        "cloudformation:CreateStack",
+        "cloudformation:CreateUploadBucket",
+        "cloudformation:DeleteStack",
+        "cloudformation:Describe*",
+        "cloudformation:UpdateStack"
+      ],
+      "Resource": [
+        "arn:aws:cloudformation:*:*:stack/lambda-dynamodb-passwordbreachcheck-*/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "lambda:Get*",
         "lambda:List*",
         "lambda:CreateFunction"
       ],
       "Resource": [
         "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:CreateBucket",
+        "s3:DeleteBucket",
+        "s3:ListBucket",
+        "s3:ListBucketVersions",
+        "s3:PutAccelerateConfiguration",
+        "s3:GetEncryptionConfiguration",
+        "s3:PutEncryptionConfiguration"
+      ],
+      "Resource": [
+        "arn:aws:s3:::lambda-dynamodb-passwordbreachcheck*serverlessdeploy*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::lambda-dynamodb-passwordbreachcheck*serverlessdeploy*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "lambda:AddPermission",
+        "lambda:CreateAlias",
+        "lambda:DeleteFunction",
+        "lambda:InvokeFunction",
+        "lambda:PublishVersion",
+        "lambda:RemovePermission",
+        "lambda:Update*"
+      ],
+      "Resource": [
+        "arn:aws:lambda:*:*:function:lambda-dynamodb-passwordbreachcheck-*-*"
       ]
     },
     {
@@ -49,6 +104,33 @@
     },
     {
       "Effect": "Allow",
+      "Action": "kinesis:*",
+      "Resource": [
+        "arn:aws:kinesis:*:*:stream/lambda-dynamodb-passwordbreachcheck-*-*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetRole",
+        "iam:CreateRole",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:DeleteRole"
+      ],
+      "Resource": [
+        "arn:aws:iam::*:role/lambda-dynamodb-passwordbreachcheck-*-*-lambdaRole"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "sqs:*",
+      "Resource": [
+        "arn:aws:sqs:*:*:lambda-dynamodb-passwordbreachcheck-*-*"
+      ]
+    },
+    {
+      "Effect": "Allow",
       "Action": [
         "cloudwatch:GetMetricStatistics"
       ],
@@ -63,7 +145,7 @@
         "logs:DeleteLogGroup"
       ],
       "Resource": [
-        "arn:aws:logs:ca-central-1:*:*"
+        "arn:aws:logs:*:*:*"
       ],
       "Effect": "Allow"
     },
@@ -72,7 +154,7 @@
         "logs:PutLogEvents"
       ],
       "Resource": [
-        "arn:aws:logs:ca-central-1:*:*"
+        "arn:aws:logs:*:*:*"
       ],
       "Effect": "Allow"
     },
@@ -85,6 +167,26 @@
       ],
       "Resource": [
         "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "events:Put*",
+        "events:Remove*",
+        "events:Delete*"
+      ],
+      "Resource": [
+        "arn:aws:events:*:*:rule/lambda-dynamodb-passwordbreachcheck-*-*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "events:DescribeRule"
+      ],
+      "Resource": [
+        "arn:aws:events:*:*:rule/lambda-dynamodb-passwordbreachcheck-*-*"
       ]
     },
     {
