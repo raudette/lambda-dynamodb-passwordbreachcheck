@@ -1,0 +1,133 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
+              "lambda:CreateFunction",
+              "logs:DescribeLogGroups",
+              "lambda:List*",
+              "logs:DescribeLogStreams",
+              "s3:PutBucketPolicy",
+              "s3:DeleteBucketPolicy",
+              "lambda:Get*",
+              "logs:FilterLogEvents",
+              "cloudwatch:GetMetricStatistics",
+              "cloudformation:List*",
+              "cloudformation:ValidateTemplate",
+              "cloudformation:Get*"
+          ],
+          "Resource": "*"
+      },
+      {
+          "Sid": "VisualEditor1",
+          "Effect": "Allow",
+          "Action": [
+              "s3:PutAccelerateConfiguration",
+              "s3:ListBucketVersions",
+              "s3:CreateBucket",
+              "s3:ListBucket",
+              "s3:PutEncryptionConfiguration",
+              "apigateway:DELETE",
+              "s3:GetEncryptionConfiguration",
+              "iam:PassRole",
+              "logs:CreateLogStream",
+              "apigateway:PATCH",
+              "cloudformation:UpdateStack",
+              "lambda:DeleteFunction",
+              "apigateway:GET",
+              "s3:DeleteBucket",
+              "apigateway:PUT",
+              "lambda:InvokeFunction",
+              "logs:DeleteLogGroup",
+              "lambda:Update*",
+              "logs:CreateLogGroup",
+              "events:Delete*",
+              "lambda:AddPermission",
+              "cloudformation:CreateStack",
+              "cloudformation:DeleteStack",
+              "lambda:PublishVersion",
+              "apigateway:POST",
+              "lambda:RemovePermission",
+              "s3:GetBucketLocation",
+              "lambda:CreateAlias"
+          ],
+          "Resource": [
+              "arn:aws:cloudformation:*:*:stack/passwordbreachcheck-*/*",
+              "arn:aws:apigateway:*::/restapis*",
+              "arn:aws:apigateway:*::/apikeys*",
+              "arn:aws:apigateway:*::/usageplans*",
+              "arn:aws:iam::*:role/*",
+              "arn:aws:lambda:*:*:function:passwordbreachcheck-*-*",
+              "arn:aws:logs:*:*:*",
+              "arn:aws:events:*:*:rule/passwordbreachcheck-*-*",
+              "arn:aws:s3:::passwordbreachcheck*serverlessdeploy*"
+          ]
+      },
+      {
+          "Sid": "VisualEditor2",
+          "Effect": "Allow",
+          "Action": [
+              "s3:PutObject",
+              "s3:GetObject",
+              "iam:GetRole",
+              "events:DescribeRule",
+              "iam:DeleteRolePolicy",
+              "iam:CreateRole",
+              "iam:DeleteRole",
+              "iam:PutRolePolicy",
+              "s3:DeleteObject",
+              "logs:PutLogEvents"
+          ],
+          "Resource": [
+              "arn:aws:logs:*:*:*",
+              "arn:aws:events:*:*:rule/passwordbreachcheck-*-*",
+              "arn:aws:s3:::passwordbreachcheck*serverlessdeploy*",
+              "arn:aws:iam::*:role/passwordbreachcheck-*-*-lambdaRole"
+          ]
+      },
+      {
+          "Sid": "VisualEditor3",
+          "Effect": "Allow",
+          "Action": "s3:CreateBucket",
+          "Resource": "arn:aws:s3:::*"
+      },
+      {
+          "Sid": "VisualEditor4",
+          "Effect": "Allow",
+          "Action": [
+              "cloudformation:CreateUploadBucket",
+              "cloudformation:Describe*"
+          ],
+          "Resource": "arn:aws:cloudformation:*:*:stack/passwordbreachcheck-*/*"
+      },
+      {
+          "Sid": "VisualEditor5",
+          "Effect": "Allow",
+          "Action": "kinesis:*",
+          "Resource": "arn:aws:kinesis:*:*:stream/passwordbreachcheck-*-*"
+      },
+      {
+          "Sid": "VisualEditor6",
+          "Effect": "Allow",
+          "Action": "sqs:*",
+          "Resource": "arn:aws:sqs:*:*:passwordbreachcheck-*-*"
+      },
+      {
+          "Sid": "VisualEditor7",
+          "Effect": "Allow",
+          "Action": [
+              "events:Put*",
+              "events:Remove*"
+          ],
+          "Resource": "arn:aws:events:*:*:rule/passwordbreachcheck-*-*"
+      },
+      {
+          "Sid": "VisualEditor8",
+          "Effect": "Allow",
+          "Action": "dynamodb:*",
+          "Resource": "arn:aws:dynamodb:*:*:table/*"
+      }
+  ]
+}

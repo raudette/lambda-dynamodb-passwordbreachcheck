@@ -1,4 +1,4 @@
-service: lambda-dynamodb-passwordbreachcheck
+service: passwordbreachcheck
 
 frameworkVersion: '2'
 
@@ -41,7 +41,7 @@ functions:
 
 resources:
   Resources:
-    HaveIBeenPwnedTable:
+    PasswordBreachCheckTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
