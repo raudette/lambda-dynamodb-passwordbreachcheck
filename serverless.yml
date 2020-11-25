@@ -4,7 +4,6 @@ frameworkVersion: '2'
 
 provider:
   name: aws
-  runtime: nodejs12.x
   apiGateway:
     shouldStartNameWithService: true
 
@@ -12,6 +11,7 @@ provider:
   region: ca-central-1
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    S3_BUCKET: ${self:service}-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -21,10 +21,17 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - dynamodb:BatchWriteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "arn:aws:s3:::${self:service}-${opt:stage, self:provider.stage}/*"
 
 functions:
+
   checkhash:
+    runtime: nodejs12.x
     handler: checkhash.checkhash
     events:
       - http:
@@ -33,11 +40,22 @@ functions:
           cors: true
 
   html:
+    runtime: nodejs12.x
     handler: static.html
     events:
       - http:
           path: /
           method: get
+
+  importpassword:
+    runtime: python3.7
+    handler: ImportPassword.CSVtoDynamoDB
+    events:
+      - s3:
+          bucket: ${self:service}-${opt:stage, self:provider.stage}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .csv
 
 resources:
   Resources:
@@ -53,9 +71,10 @@ resources:
           -
             AttributeName: passwordhash
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+        BillingMode: PAY_PER_REQUEST
+#        ProvisionedThroughput:
+#          ReadCapacityUnits: 0
+#          WriteCapacityUnits: 0
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
 
 plugins: 
