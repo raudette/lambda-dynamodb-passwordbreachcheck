@@ -1,3 +1,4 @@
+# Modified from https://github.com/aws-samples/csv-to-dynamodb
 import json
 import boto3
 import os
@@ -10,13 +11,11 @@ s3 = boto3.resource('s3')
 dynamodb = boto3.resource('dynamodb')
 
 bucket = os.environ['S3_BUCKET']
-#key = os.environ['key']
 tableName = os.environ['DYNAMODB_TABLE']
 
 def CSVtoDynamoDB(event, context):
 
 
-   #get() does not store in memory
    try:
       for record in event['Records']:
          key = unquote_plus(record['s3']['object']['key'])
@@ -33,7 +32,6 @@ def CSVtoDynamoDB(event, context):
    batch_size = 100
    batch = []
 
-   #DictReader is a generator; not stored in memory
    for row in csv.DictReader(codecs.getreader('utf-8')(obj),fieldnames=['passwordhash','timesseen'],delimiter=":"):
       if len(batch) >= batch_size:
          write_to_dynamo(batch)
