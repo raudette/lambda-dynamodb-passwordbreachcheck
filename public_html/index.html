@@ -15,7 +15,7 @@
 		
 	 function PasswordBreachCheck(hash) {
         var call = './checkhash/'+hash.trim();
-        $('.call').html(call);
+        $('.call').html(window.location + call.substring(2));
 		 $.ajax({
 			url: call,
 			type: 'GET',
