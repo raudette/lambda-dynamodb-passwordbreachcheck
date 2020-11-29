@@ -73,9 +73,6 @@ resources:
             AttributeName: passwordhash
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-#        ProvisionedThroughput:
-#          ReadCapacityUnits: 0
-#          WriteCapacityUnits: 0
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
 
 plugins: 

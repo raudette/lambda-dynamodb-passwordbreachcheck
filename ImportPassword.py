@@ -1,4 +1,5 @@
 # Modified from https://github.com/aws-samples/csv-to-dynamodb
+# This function loads a CSV file from S3 and loads it into DynamoDB
 import json
 import boto3
 import os
@@ -9,13 +10,12 @@ from urllib.parse import unquote_plus
 
 s3 = boto3.resource('s3')
 dynamodb = boto3.resource('dynamodb')
-
 bucket = os.environ['S3_BUCKET']
 tableName = os.environ['DYNAMODB_TABLE']
 
 def CSVtoDynamoDB(event, context):
 
-
+   #get the file from S3
    try:
       for record in event['Records']:
          key = unquote_plus(record['s3']['object']['key'])
@@ -32,6 +32,7 @@ def CSVtoDynamoDB(event, context):
    batch_size = 100
    batch = []
 
+   #process rows
    for row in csv.DictReader(codecs.getreader('utf-8')(obj),fieldnames=['passwordhash','timesseen'],delimiter=":"):
       if len(batch) >= batch_size:
          write_to_dynamo(batch)
@@ -61,6 +62,7 @@ def write_to_dynamo(rows):
                   'passwordhash': rows[i]["passwordhash"],
                   'timesseen':int(rows[i]["timesseen"])
             }
+            #Load record into DB
             batch.put_item(Item)
             
    except Exception as e:
