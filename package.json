@@ -7,7 +7,7 @@
     "url": "git+https://github.com/raudette/lambda-dynamodb-passwordbreachcheck.git"
   },
   "author": "Richard Audette",
-  "license": "MIT",
+  "license": "unlicense",
   "bugs": {
     "url": "https://github.com/raudette/lambda-dynamodb-passwordbreachcheck/issues"
   },
